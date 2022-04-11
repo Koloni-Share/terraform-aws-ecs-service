@@ -2,6 +2,10 @@ variable "environment" {
   type = string
 }
 
+variable "name_prefix" {
+  type = string
+}
+
 variable "ecr_repo_url" {
   type = string
 }

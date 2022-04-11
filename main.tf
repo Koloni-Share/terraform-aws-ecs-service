@@ -1,6 +1,5 @@
 locals {
   container_image = "${var.ecr_repo_url}:${var.service_version}"
-  name_prefix     = var.environment
 }
 
 module "container_definition" {
@@ -141,7 +140,7 @@ module "service" {
   source  = "cn-terraform/ecs-fargate-service/aws"
   version = "2.0.16"
 
-  name_prefix = local.name_prefix
+  name_prefix = var.name_prefix
 
   vpc_id          = var.vpc_id
   public_subnets  = var.public_subnets
