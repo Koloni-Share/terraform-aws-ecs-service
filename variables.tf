@@ -63,3 +63,18 @@ variable "health_check_path" {
   type    = string
   default = "/"
 }
+
+variable "container_cpu" {
+  type    = number
+  default = 256
+}
+
+variable "container_memory" {
+  type    = number
+  default = 2048
+}
+
+variable "container_memory_reservation" {
+  type    = number
+  default = 1024
+}

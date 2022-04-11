@@ -1,9 +1,13 @@
 module "taskdef" {
-  source = "./modules/taskdef"
+  source = "../taskdef"
 
   name_prefix     = var.service_name
   container_name  = var.service_name
-  container_image = "${aws_ecr_repository.repo.repository_url}:${var.service_version}"
+  container_image = "${var.ecr_repo_url}:${var.service_version}"
+
+  container_cpu                = var.container_cpu
+  container_memory             = var.container_memory
+  container_memory_reservation = var.container_memory_reservation
 
   task_role_arn       = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
   custom_iam_policies = var.custom_iam_policies
@@ -24,24 +28,21 @@ module "taskdef" {
     }
   ]
 
-  /*
-    log_configuration = {
-        logDriver = "awslogs"
-        options = {
-            "awslogs-group": "awslogs-lockers-pypi"
-            "awslogs-region": "us-east-2"
-            "awslogs-stream-prefix": "awslogs-${var.service_name}"
-            "awslogs-create-group": "true"
-        }
+  log_configuration = {
+    logDriver = "awslogs"
+    options = {
+      "awslogs-group" : "koloni-locker-services"
+      "awslogs-region" : "us-east-2"
+      "awslogs-stream-prefix" : "awslogs-${var.service_name}-{var.environment_name}"
     }
-*/
+  }
 }
 
 module "service" {
   source  = "cn-terraform/ecs-fargate-service/aws"
   version = "2.0.16"
 
-  name_prefix = var.service_name
+  name_prefix = "${var.environment_prefix}-${var.environment_name}"
 
   vpc_id          = var.vpc_id
   public_subnets  = var.public_subnets
