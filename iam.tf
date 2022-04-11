@@ -32,14 +32,14 @@ data "aws_iam_policy_document" "s3_data_bucket_policy" {
 }
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name                 = "${local.name_prefix}-ecs-execution-role"
+  name                 = "${var.name_prefix}-ecs-execution-role"
   assume_role_policy   = data.aws_iam_policy_document.ecs_task_execution_role.json
   permissions_boundary = var.permissions_boundary
   tags                 = var.tags
 }
 
 resource "aws_iam_role" "ecs_instance_role" {
-  name               = "${local.name_prefix}-ecs-instance-role"
+  name               = "${var.name_prefix}-ecs-instance-role"
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role.json
 }
 
@@ -63,7 +63,7 @@ resource "aws_iam_role_policy_attachment" "ecs_instance_custom_role_policy_attac
 }
 
 resource "aws_iam_policy" "s3_policy" {
-  name   = "${local.name_prefix}-s3-policy"
+  name   = "${var.name_prefix}-s3-policy"
   policy = data.aws_iam_policy_document.s3_data_bucket_policy.json
 }
 
@@ -73,7 +73,7 @@ resource "aws_iam_role_policy_attachment" "ecs_instance_role_policy_attach_s3" {
 }
 
 resource "aws_iam_policy" "ssm" {
-  name        = "${local.name_prefix}-ssm-policy"
+  name        = "${var.name_prefix}-ssm-policy"
   description = "ssm policy"
 
   policy = <<EOF
@@ -105,7 +105,7 @@ resource "aws_iam_role_policy_attachment" "secrets" {
 }
 
 resource "aws_iam_policy" "secrets" {
-  name        = "${local.name_prefix}-secrets-policy"
+  name        = "${var.name_prefix}-secrets-policy"
   description = "secrets policy"
 
   policy = <<EOF
@@ -171,8 +171,8 @@ EOF
 
 resource "aws_iam_policy" "ecs_task_execution_role_custom_policy" {
   for_each    = toset(var.ecs_task_execution_role_custom_policies)
-  name        = "${local.name_prefix}-ecs-task-execution-role-custom-policy"
-  description = "A custom policy for ${local.name_prefix}-ecs-task-execution-role IAM Role"
+  name        = "${var.name_prefix}-ecs-task-execution-role-custom-policy"
+  description = "A custom policy for ${var.name_prefix}-ecs-task-execution-role IAM Role"
   policy      = each.value
   tags        = var.tags
 }
