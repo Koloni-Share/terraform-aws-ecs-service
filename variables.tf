@@ -87,29 +87,9 @@ variable "container_memory_reservation" {
   default = 1024
 }
 
-variable "name_prefix" {
-  type = string
-}
-
 variable "tags" {
   type    = map(string)
   default = {}
-}
-
-variable "container_name" {
-  type        = string
-  description = "The name of the container. Up to 255 characters ([a-z], [A-Z], [0-9], -, _ allowed)"
-}
-
-variable "container_image" {
-  type        = string
-  description = "The image used to start the container. Images in the Docker Hub registry available by default"
-}
-
-variable "container_definition" {
-  type        = map(any)
-  description = "Container definition overrides which allows for extra keys or overriding existing keys."
-  default     = {}
 }
 
 variable "port_mappings" {

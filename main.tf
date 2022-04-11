@@ -10,7 +10,7 @@ module "container_definition" {
   container_image              = local.container_image
   container_memory             = var.container_memory
   container_memory_reservation = var.container_memory_reservation
-  container_definition         = var.container_definition
+  container_definition         = {}
 
   port_mappings = [
     {
