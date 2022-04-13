@@ -140,7 +140,7 @@ module "service" {
   source  = "cn-terraform/ecs-fargate-service/aws"
   version = "2.0.16"
 
-  name_prefix = "koloni-${var.name_prefix}"
+  name_prefix = "${var.environment}-koloni-${var.name_prefix}"
 
   vpc_id          = var.vpc_id
   public_subnets  = var.public_subnets
