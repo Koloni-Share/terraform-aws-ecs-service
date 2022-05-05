@@ -72,7 +72,7 @@ module "container_definition" {
 
 # Task Definition
 resource "aws_ecs_task_definition" "td" {
-  family                = "${var.service_name}-td"
+  family                = "${var.environment}-${var.service_name}-td"
   container_definitions = "[${module.container_definition.json_map_encoded}]"
   task_role_arn         = aws_iam_role.ecs_instance_role.arn
   execution_role_arn    = aws_iam_role.ecs_task_execution_role.arn
